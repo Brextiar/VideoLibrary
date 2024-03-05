@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
+use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: VideoRepository::class)]
+#[ORM\Entity(repositoryClass: FilmRepository::class)]
 class Film
 {
     #[ORM\Id]

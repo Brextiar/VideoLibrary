@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Film[]    findAll()
  * @method Film[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VideoRepository extends ServiceEntityRepository
+class FilmRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
