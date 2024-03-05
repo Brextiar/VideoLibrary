@@ -1,0 +1,13 @@
+##########################################################
+################--#Installer bootstrap--##################
+##########################################################
+dans la console taper :
+    composer require twbs/bootstrap:5.3.3
+    symfony console importmap:require bootstrap
+
+copier cette ligne dans assets/app.js :
+    import './vendor/bootstrap/dist/css/bootstrap.min.css';
+et celle ci si besoin de JS :
+    import './vendor/bootstrap/bootstrap.index.js';
+
+
