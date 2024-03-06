@@ -20,11 +20,15 @@ class Film
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $category = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $creatingDate = null;
 
     #[ORM\Column(length: 250, nullable: true)]
     private ?string $poster = null;
+
+    #[ORM\ManyToOne(inversedBy: 'films')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $categories = null;
 
     public function getId(): ?int
     {
@@ -55,14 +59,14 @@ class Film
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCreatingDate(): ?\DateTimeInterface
     {
-        return $this->category;
+        return $this->creatingDate;
     }
 
-    public function setCategory(string $category): static
+    public function setCreatingDate(\DateTimeInterface $creatingDate): static
     {
-        $this->category = $category;
+        $this->creatingDate = $creatingDate;
 
         return $this;
     }
@@ -75,6 +79,18 @@ class Film
     public function setPoster(?string $poster): static
     {
         $this->poster = $poster;
+
+        return $this;
+    }
+
+    public function getCategories(): ?Category
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(?Category $categories): static
+    {
+        $this->categories = $categories;
 
         return $this;
     }
