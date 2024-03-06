@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Film;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +17,15 @@ class HomeController extends AbstractController
     public function index(EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $categories = $entityManager->getRepository(Category::class)->findAll();
-        
+        $films = $entityManager->getRepository(Film::class)->findAll();
+        $count = count($films);
         $session->set('categories', $categories);
         
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'categories' => $categories,
+            'films' => $films,
+            'count' => $count
         ]);
     }
     

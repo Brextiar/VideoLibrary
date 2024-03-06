@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Film;
+use App\Form\FilmFormType;
 use App\Form\FilmType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ class FilmController extends AbstractController
         $categories = $session->get('categories');
         
         $film = new Film();
-        $addFilmForm = $this->createForm(FilmType::class, $film);
+        $addFilmForm = $this->createForm(FilmFormType::class, $film);
         
         $addFilmForm->handleRequest($request);
       
