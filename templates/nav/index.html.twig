@@ -1,18 +1,35 @@
-
-
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>D:/phpStormProject/VideoLibrary/src/Controller/NavController.php</code></li>
-        <li>Your template at <code>D:/phpStormProject/VideoLibrary/templates/nav/index.html.twig</code></li>
-    </ul>
-</div>
-{% endblock %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <div class="container px-lg-5">
+        <a class="navbar-brand" href="{{ url('home') }}">Video Library</a>
+        <span class="navbar-text">Déja {{ count }} films sauvegardés!</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ url('home') }}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% cache "categoryCache" %}
+                            {% for category in categories %}
+                                <li><a class="dropdown-item" href="#">{{ category.name }}</a></li>
+                            {% endfor %}
+                        {% endcache %}
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('films_add') }}">Add film!</a></li>
+            </ul>
+        </div>
+        <div class="container w-25">
+            <form class="d-flex" role="search"> {# make:form - SearchForm #}
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

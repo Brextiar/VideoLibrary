@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Film;
 use App\Form\FilmFormType;
+use App\Repository\FilmRepository;
 use App\Service\FilmCounterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,8 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class FilmController extends AbstractController
 {
     #[Route('add', name: 'add')]
-    public function addForm(FilmCounterService $filmCounter,
-                            Request                $request,
+    public function addForm(Request                $request,
                             SluggerInterface       $slugger,
                             EntityManagerInterface $entityManager): Response
     {
@@ -30,7 +30,7 @@ class FilmController extends AbstractController
             
             if ($addFilmForm->get('poster')->getData() instanceof UploadedFile) {
                 $pictureFile = $addFilmForm->get('poster')->getData();
-                $fileName = $slugger->slug($film->getTitle()) . '-' . uniqid() . '.' . $pictureFile->guessExtension();
+                $fileName = $this->getParameter('poster_dir') . '/' . $slugger->slug($film->getTitle()) . '-' . uniqid() . '.' . $pictureFile->guessExtension();
                 $pictureFile->move($this->getParameter('poster_dir'), $fileName);
                 $film->setPoster($fileName);
             }
@@ -44,14 +44,20 @@ class FilmController extends AbstractController
             ]);
             
         }
-        
-        
-        
         return $this->render('film/add_film.html.twig', [
             //'categories' => $categories,
             'addFilmForm' => $addFilmForm,
             'film' => $film,
-            'count' => $filmCounter->count()
+        ]);
+    }
+    
+    #[Route('details/{id}', name: 'app_film_details', requirements: ['id' => '\d+'])]
+    public function details(FilmRepository $filmRepository, Request $request): Response
+    {
+        $id = $request->get('id');
+        $film = $filmRepository->find($id);
+        return $this->render('film/details.html.twig', [
+            'film' => $film,
         ]);
     }
 }

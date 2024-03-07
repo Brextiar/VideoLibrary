@@ -5,7 +5,6 @@
 {% block body %}
 <main>
     <h1>Video Library</h1>
-{#    <p>Déja {{ count }} Films sauvegardé!</p>#}
     <section class="container d-flex flex-wrap align-items-center justify-content-between">
         {% for film in films %}
 
@@ -15,7 +14,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ film.title }}</h5>
-                    <p class="card-text">{{ film.description }}</p>
+                    <a href="{{ path('films_app_film_details', {'id': film.id}) }}" class="btn btn-link">Details</a>
                 </div>
             </div>
         {% endfor %}

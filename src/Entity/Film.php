@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Film
 {
     #[ORM\Id]
@@ -15,9 +17,12 @@ class Film
     private ?int $id = null;
 
     #[ORM\Column(length: 250)]
+    #[Assert\NotNull]
+    #[Assert\Length(min: 10, max: 250)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -28,6 +33,7 @@ class Film
 
     #[ORM\ManyToOne(inversedBy: 'films')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Category $categories = null;
 
     public function getId(): ?int
@@ -63,10 +69,11 @@ class Film
     {
         return $this->creatingDate;
     }
-
-    public function setCreatingDate(\DateTimeInterface $creatingDate): static
+    
+    #[ORM\PrePersist]
+    public function setCreatingDate(): static
     {
-        $this->creatingDate = $creatingDate;
+        $this->creatingDate = new \DateTime();
 
         return $this;
     }

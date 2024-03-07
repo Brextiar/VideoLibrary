@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FilmDetailsController!{% endblock %}
+
+{% block body %}
+<section>
+    <div class="container d-flex flex-wrap align-items-center justify-content-between">
+        <div class="card m-3" style="width: 18rem;">
+            <div class="card-header">
+                {% set imageUrl = 'uploads/' ~ film.poster %}
+                <img class="card-img-top" src="{{ imageUrl }}" alt="{{ film.title }}">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ film.title }}</h5>
+                <p class="card-text">{{ film.description }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
