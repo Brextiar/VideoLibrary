@@ -3,21 +3,28 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<main>
-    <h1>Video Library</h1>
-    <section class="container d-flex flex-wrap align-items-center justify-content-between">
-        {% for film in films %}
+    <main class="d-flex flex-column align-items-center">
+        <h1 class="m-2">Video Library</h1>
+        <section class="container d-flex flex-wrap align-items-center justify-content-between">
 
-            <div class="card m-3" style="width: 18rem;">
-                <div class="card-header">
-                    <img class="card-img-top" src="{{ film.poster }}" alt="{{ film.title }}">
+            {% for film in films %}
+                <div class="card m-3" style="width: 18rem;">
+                    <div class="card-header">
+                        <img class="card-img-top" src="{{ film.poster }}" alt="{{ film.title }}">
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">{{ film.title }}</h5>
+                        <div class="btn-group">
+                            <a href="{{ path('films_app_film_details', {'id': film.id}) }}"
+                               class="btn btn-outline-primary">Details</a>
+                            <a href="{{ path('films_app_film_update', {'id': film.id}) }}"
+                               class="btn btn-outline-success">Edit</a>
+                            <a  href="{{ path('films_app_film_delete', {'id': film.id}) }}" class="btn btn-outline-danger">Delete</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ film.title }}</h5>
-                    <a href="{{ path('films_app_film_details', {'id': film.id}) }}" class="btn btn-link">Details</a>
-                </div>
-            </div>
-        {% endfor %}
-    </section>
-</main>
+            {% endfor %}
+
+        </section>
+    </main>
 {% endblock %}

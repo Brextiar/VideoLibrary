@@ -7,12 +7,16 @@
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
         <div class="card m-3" style="width: 18rem;">
             <div class="card-header">
-                {% set imageUrl = 'uploads/' ~ film.poster %}
-                <img class="card-img-top" src="{{ imageUrl }}" alt="{{ film.title }}">
+                <img class="card-img-top" src="{{ film.poster }}" alt="{{ film.title }}">
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ film.title }}</h5>
                 <p class="card-text">{{ film.description }}</p>
+            </div>
+            <div class="btn-group">
+                <a href="{{ path('films_app_film_update', {'id': film.id}) }}"
+                   class="btn btn-outline-success">Edit</a>
+                <a  href="{{ path('films_app_film_delete', {'id': film.id}) }}" class="btn btn-outline-danger">Delete</a>
             </div>
         </div>
     </div>
