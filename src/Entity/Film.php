@@ -35,66 +35,107 @@ class Film
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
     private ?Category $categories = null;
-
+    
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
-
+    
+    /**
+     * @param string $title
+     *
+     * @return $this
+     */
     public function setTitle(string $title): static
     {
         $this->title = $title;
 
         return $this;
     }
-
+    
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
+    
+    /**
+     * @param string $description
+     *
+     * @return $this
+     */
     public function setDescription(string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
-
+    
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatingDate(): ?\DateTimeInterface
     {
         return $this->creatingDate;
     }
     
+    /**
+     * @return $this
+     */
     #[ORM\PrePersist]
     public function setCreatingDate(): static
     {
         $this->creatingDate = new \DateTime();
-
+        
         return $this;
     }
-
+    
+    /**
+     * @return string|null
+     */
     public function getPoster(): ?string
     {
         return $this->poster;
     }
-
+    
+    /**
+     * @param string|null $poster
+     *
+     * @return $this
+     */
     public function setPoster(?string $poster): static
     {
         $this->poster = $poster;
 
         return $this;
     }
-
+    
+    /**
+     * @return Category|null
+     */
     public function getCategories(): ?Category
     {
         return $this->categories;
     }
-
+    
+    /**
+     * @param Category|null $categories
+     *
+     * @return $this
+     */
     public function setCategories(?Category $categories): static
     {
         $this->categories = $categories;

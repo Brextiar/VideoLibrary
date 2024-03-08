@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Film;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Film>
@@ -16,33 +18,33 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FilmRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, Film::class);
     }
 
-    //    /**
-    //     * @return Film[] Returns an array of Film objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Film
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function paginatorFilm(int $page, int $limit) :PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('r')
+                ->orderBy('r.id', 'ASC'),
+            $page,
+            $limit
+        );
+    }
+    
+    public function paginatorFilmByCategory(int $page, int $limit, int $idCategory) :PaginationInterface {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('r')
+                ->andWhere('r.categories = :idCategory')
+                ->setParameter('idCategory', $idCategory)
+                ->orderBy('r.id', 'ASC'),
+            $page,
+            $limit
+        );
+    }
+    
 }

@@ -28,10 +28,10 @@
         </section>
         <div class="btn-group">
             {% if page > 1 %}
-                <a class="btn btn-primary" href="{{ path('home', {'page': page - 1}) }}">Previous</a>
+                <a class="btn btn-primary" href="{{ path('category', {'categories': category.name|slug, 'id': category.id,'page': page - 1}) }}">Previous</a>
             {% endif %}
             {% if page < maxFilms %}
-                <a class="btn btn-primary" href="{{ path('home', {'page': page + 1}) }}">Next</a>
+                <a class="btn btn-primary" href="{{ path('category', {'categories': category.name|slug, 'id': category.id, 'page': page + 1}) }}">Next</a>
             {% endif %}
         </div>
     </main>

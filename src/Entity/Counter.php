@@ -20,12 +20,20 @@ class Counter
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return int|null
+     */
     public function getCount(): ?int
     {
         return $this->count;
     }
-
+    
+    /**
+     * @param int $count
+     *
+     * @return $this
+     */
     public function setCount(int $count): static
     {
         $this->count = $count;

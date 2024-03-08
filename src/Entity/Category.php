@@ -20,22 +20,36 @@ class Category
 
     #[ORM\OneToMany(targetEntity: Film::class, mappedBy: 'categories')]
     private Collection $films;
-
+    
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->films = new ArrayCollection();
     }
-
+    
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
-
+    
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -50,7 +64,12 @@ class Category
     {
         return $this->films;
     }
-
+    
+    /**
+     * @param Film $film
+     *
+     * @return $this
+     */
     public function addFilm(Film $film): static
     {
         if (!$this->films->contains($film)) {
@@ -60,7 +79,12 @@ class Category
 
         return $this;
     }
-
+    
+    /**
+     * @param Film $film
+     *
+     * @return $this
+     */
     public function removeFilm(Film $film): static
     {
         if ($this->films->removeElement($film)) {

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Film;
 use App\Form\FilmFormType;
 use App\Repository\FilmRepository;
-use App\Service\FilmCounterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,10 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * Class FilmController
+ */
 #[Route('/Films/', name: 'films_')]
 class FilmController extends AbstractController
 {
-
+    
+    /**
+     * @param Request                   $request
+     * @param SluggerInterface          $slugger
+     * @param EntityManagerInterface    $entityManager
+     * @return Response
+     */
     #[Route('add', name: 'add')]
     public function addForm(Request                $request,
                             SluggerInterface       $slugger,
@@ -47,13 +55,22 @@ class FilmController extends AbstractController
 
         }
         return $this->render('film/add_film.html.twig', [
-            //'categories' => $categories,
             'addFilmForm' => $addFilmForm,
             'film' => $film,
         ]);
     }
-
-    #[Route('details/{id}', name: 'app_film_details', requirements: ['id' => '\d+'])]
+    
+    /**
+     * @param FilmRepository    $filmRepository
+     * @param Request           $request
+     *
+     * @return Response
+     */
+    
+    #[Route('{category}/{title}-{id}',
+        name:           'app_film_details',
+        requirements:   ['id' => '\d+', 'title' => '.+', 'category' => '.+']
+    )]
     public function details(FilmRepository $filmRepository, Request $request): Response
     {
         $id = $request->get('id');
@@ -62,7 +79,15 @@ class FilmController extends AbstractController
             'film' => $film,
         ]);
     }
-
+    
+    /**
+     * @param FilmRepository $filmRepository
+     * @param Request $request
+     * @param SluggerInterface $slugger
+     * @param EntityManagerInterface $entityManager
+     *
+     * @return Response
+     */
     #[Route('update/{id}', name: 'app_film_update', requirements: ['id' => '\d+'])]
     public function update(
         FilmRepository         $filmRepository,
@@ -101,14 +126,24 @@ class FilmController extends AbstractController
             'film' => $film,
         ]);
     }
-
+    
+    /**
+     * @param EntityManagerInterface    $entityManager
+     * @param FilmRepository            $filmRepository
+     * @param Request                   $request
+     *
+     * @return Response
+     */
     #[Route('delete/{id}', name: 'app_film_delete', requirements: ['id' => '\d+'])]
     public function delete(
-        EntityManagerInterface $entityManager,
-        FilmRepository $filmRepository,
-        Request $request): response
+        EntityManagerInterface  $entityManager,
+        FilmRepository          $filmRepository,
+        Request                 $request): response
     {
         $film = $filmRepository->find($request->get('id'));
+        if (!empty($film->getPoster()) && file_exists($film->getPoster())) {
+        unlink($film->getPoster());
+        }
         $entityManager->remove($film);
         $entityManager->flush();
         $this->addFlash('danger', 'Un livre a été supprimé');
