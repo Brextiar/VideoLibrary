@@ -3,22 +3,26 @@
 {% block title %}Hello FilmDetailsController!{% endblock %}
 
 {% block body %}
-<section>
-    <div class="container d-flex flex-wrap align-items-center justify-content-between">
-        <div class="card m-3" style="width: 18rem;">
-            <div class="card-header">
+    <section class="d-flex flex-column align-items-center justify-content-between w-100">
+
+        <div class="card d-flex flex-row align-items-center justify-content-evenly m-3 p-4 w-50">
+            <div class="w-50 rounded-4">
                 <img class="card-img-top" src="{{ film.poster }}" alt="{{ film.title }}">
             </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ film.title }}</h5>
-                <p class="card-text">{{ film.description }}</p>
-            </div>
-            <div class="btn-group">
-                <a href="{{ path('films_app_film_update', {'id': film.id}) }}"
-                   class="btn btn-outline-success">Edit</a>
-                <a  href="{{ path('films_app_film_delete', {'id': film.id}) }}" class="btn btn-outline-danger">Delete</a>
+            <div class=" d-flex flex-column align-items-center justify-content-center h-100">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <h5 class="card-title fs-2">{{ film.title }}</h5>
+                    <p class="card-text fs-4">{{ film.description }}</p>
+                    <p class="card-text fst-italic fs-6">Add date : {{ film.creatingDate|date('Y-m-d H:i') }}</p>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ path('films_app_film_update', {'id': film.id}) }}"
+                       class="btn btn-outline-success">Edit</a>
+                    <a href="{{ path('films_app_film_delete', {'id': film.id}) }}"
+                       class="btn btn-outline-danger">Delete</a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+
+    </section>
 {% endblock %}

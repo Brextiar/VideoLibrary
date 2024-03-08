@@ -36,7 +36,7 @@ class HomeController extends AbstractController
                           SluggerInterface   $slugger): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = 5;
+        $limit = 10;
         $films = $filmRepository->paginatorFilm($page, $limit);
         $maxFilms = round($filmCounter->count() / $limit);
         return $this->render('home/index.html.twig', [
@@ -46,6 +46,15 @@ class HomeController extends AbstractController
         ]);
     }
     
+    /**
+     * @param FilmRepository        $filmRepository
+     * @param Request               $request
+     * @param FilmCounterService    $filmCounter
+     * @param SluggerInterface      $slugger
+     * @param CategoryRepository    $categoryRepository
+     *
+     * @return Response
+     */
     #[Route('/{categories}-{id}', name: 'category',  requirements: ['id' => '\d+', 'categories' => '.+'])]
     public function listByCategory(FilmRepository     $filmRepository,
                                    Request            $request,
@@ -54,7 +63,7 @@ class HomeController extends AbstractController
                                    CategoryRepository $categoryRepository): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = 5;
+        $limit = 10;
         $films = $filmRepository->paginatorFilmByCategory($page, $limit, $request->get('id'));
         $maxFilms = round(count($films) / $limit);
         return $this->render('home/categories.html.twig', [

@@ -25,7 +25,12 @@ class FilmRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Film::class);
     }
-
+    
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return PaginationInterface
+     */
     public function paginatorFilm(int $page, int $limit) :PaginationInterface
     {
         return $this->paginator->paginate(
@@ -36,6 +41,13 @@ class FilmRepository extends ServiceEntityRepository
         );
     }
     
+    /**
+     * @param int $page
+     * @param int $limit
+     * @param int $idCategory
+     *
+     * @return PaginationInterface
+     */
     public function paginatorFilmByCategory(int $page, int $limit, int $idCategory) :PaginationInterface {
         return $this->paginator->paginate(
             $this->createQueryBuilder('r')
